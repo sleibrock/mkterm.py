@@ -7,20 +7,21 @@ Setup script to install mkterm
 from setuptools import setup, find_packages
 from codecs import open
 from os import path
+from mkterm.info import *
 
 here = path.abspath(path.dirname(__file__))
 
 setup(
         name="mkterm",
-        version="1.0.0",
-        description="Make multiple terminals",
+        version=__version__,
+        description=__description__,
         long_description="Make multiple terminals on your desktop",
-        url="http://github.com/leibrockoli/mkterm",
-        author="Steven L",
-        author_email="leibrockoli@gmail.com",
-        license="MIT",
+        url=__url__,
+        author=__author__,
+        author_email=__email__,
+        license=__license__,
         classifiers=[
-            "Development Status :: 5 - Stable",
+            "Development Status :: 5 - Production/Stable",
             "Intended Audience :: Developers",
             "Programming Language :: Python :: 2",
             "Programming Language :: Python :: 2.6",
@@ -37,7 +38,7 @@ setup(
         package_data={},
         entry_points={
             'console_scripts':[
-                'mkterm=mkterm:main',
+                'mkterm=mkterm.app:main',
                 ],
             }
 )

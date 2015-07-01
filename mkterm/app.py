@@ -9,6 +9,7 @@ Contains application code
 from argparse import ArgumentParser
 from os import system
 from os.path import join, isfile, isdir, expanduser
+from .info import __version__, __description__
 
 def create_settings():
     """
@@ -45,11 +46,11 @@ def main(*args, **kwargs):
     Initializes argparser, creates/reads settings file
     Spawns instances based on arguments
     """
-    ap = ArgumentParser(description='Make multiple terminals', prog='mkterm')
-    ap.add_argument('num', type=int, metavar='num', default=1,
+    ap = ArgumentParser(description=__description__, prog='mkterm')
+    ap.add_argument('-n', '--num', type=int, metavar='num', default=1,
                     help="Number of terminals to spawn")
     ap.add_argument('-v', '--version', action='version', 
-                    version="%(prog)s version={0}".format("1.0.0"))
+                    version="%(prog)s version={0}".format(__version__))
     args = ap.parse_args()
     create_settings() if not isfile(join(expanduser("~"), ".mkterm")) else 0
     try:
@@ -62,10 +63,9 @@ def main(*args, **kwargs):
     try:
         defsets['num'] = args.num
         spawn_instances(**defsets)
+        print("{1} instances spawned: {0}".format(args.num, defsets["terminal"]))
     except Exception as e:
         print("Exception encountered: {0}".format(str(e)))
-    finally:
-        print("Program quitting")
     return True
 
 if __name__ == "__main__":
