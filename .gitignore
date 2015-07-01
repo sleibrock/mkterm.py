@@ -1,0 +1,9 @@
+*.swp
+*.py[cod]
+env/
+bin/
+dist/
+MANIFEST
+__pycache__/
+*.egg-info
+build/
