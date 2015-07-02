@@ -11,33 +11,55 @@ from os import system
 from os.path import join, isfile, isdir, expanduser
 from .info import __version__, __description__
 
+# User should never want to actually spawn more than 10 terminals
+# Otherwise could be used for malicious intent
+# Additionally, you can't spawn less than 1 terminal 
+MIN = 1
+MAX = 10
+
+# This is the path for mkterm dotfile
+DOTFILE = join(expanduser("~"), ".mkterm")
+
+def test_error(expression, emsg="Error occured"):
+    """
+    Test issues via ternary expression
+    """
+    return True if expression else throw_error(emsg) 
+
+def throw_error(emsg):
+    """
+    Container for throwing errors (raise is a keyword)
+    """
+    raise Exception(emsg)
+
 def create_settings():
     """
     Create a blank settings file template in $HOME
     Should only be one line, 'terminal=xterm'
     """
     print("Creating default settings file ~/.mkterm")
-    with open(join(expanduser("~"), ".mkterm"), "w") as setf:
+    with open(DOTFILE, "w") as setf:
         setf.write("terminal=xterm\n")
 
 def load_settings_file():
     """
     Try to load a user script from ~/.mkterm
-    Assert errors if we can't use the file at all
+    Throw errors if we can't use the file at all
     """
-    with open(join(expanduser("~"), ".mkterm"), "r") as setf:
+    with open(DOTFILE, "r") as setf:
         lines = setf.readlines()
-    assert(len(lines) == 1)
-    assert("terminal" in lines[0])
-    return {'terminal' : lines[0].split("=").pop().strip().strip('\n')}
+    data = {k:v for k, v in (l.strip().split("=") for l in lines)}
+    test_error("terminal" in data, "Invalid dotfile at {0}".format(DOTFILE))
+    test_error(len(data) == 1, "Too many variables in dotfile")
+    return data
 
 def spawn_instances(terminal="urxvt", num=1):
     """
     Function to spawn multiple terminal instances
-    Assert errors based on bad input
+    Throw errors based on bad input
     """
-    assert(num > 0)
-    assert(isinstance(terminal, str))
+    test_error(num > MIN, "Input too small")
+    test_error(num < MAX, "Input too large") 
     return [system("{term} &".format(term=terminal)) for x in range(num)]
 
 def main(*args, **kwargs):
@@ -47,12 +69,12 @@ def main(*args, **kwargs):
     Spawns instances based on arguments
     """
     ap = ArgumentParser(description=__description__, prog='mkterm')
-    ap.add_argument('num', type=int, metavar='num', default=1,
+    ap.add_argument('num', type=int, nargs='?', metavar='num', default=1,
                     help="Number of terminals to spawn")
     ap.add_argument('-v', '--version', action='version', 
                     version="%(prog)s version={0}".format(__version__))
     args = ap.parse_args()
-    create_settings() if not isfile(join(expanduser("~"), ".mkterm")) else 0
+    create_settings() if not isfile(DOTFILE) else 0
     try:
         defsets = load_settings_file()
     except Exception as e:
@@ -63,7 +85,7 @@ def main(*args, **kwargs):
     try:
         defsets['num'] = args.num
         spawn_instances(**defsets)
-        print("{1} instances spawned: {0}".format(args.num, defsets["terminal"]))
+        print("{1}'s  spawned: {0}".format(args.num, defsets["terminal"]))
     except Exception as e:
         print("Exception encountered: {0}".format(str(e)))
     return True
