@@ -14,7 +14,7 @@ from .info import __version__, __description__
 # User should never want to actually spawn more than 10 terminals
 # Otherwise could be used for malicious intent
 # Additionally, you can't spawn less than 1 terminal 
-MIN = 1
+MIN = 0
 MAX = 10
 
 # This is the path for mkterm dotfile
