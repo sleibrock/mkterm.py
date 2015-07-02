@@ -4,6 +4,14 @@ mkterm - Spawn Terminals
 mkterm is a project to create a userscript on POSIX systems that allows the 
 user to create multiple terminal emulators (for instance, 3 different xterms).
 
+About
+-----
+
+mkterm is an application designed to open multiple terminals rapidly. 
+It was designed with TWMs in mind (tiling window managers) to open terminals quickly 
+and have them be tiled on the screen instantly. Of course it can be used with 
+stacking desktops but it's not to the same effect as a TWM.
+
 Install
 -------
 
