@@ -9,11 +9,11 @@ Install
 
 Clone the repo and run the following (may require sudo privileges)
 
-python setup.py install::
+  ~$ python setup.py install
 
 Or you can install it from pip with (again, may need sudo)
 
-pip install mkterm::
+  ~$ pip install mkterm
 
 Usage
 -----
@@ -24,7 +24,7 @@ number and it'll spawn multiple instances of a terminal (defaults to xterm)
 If you want to change the terminal emulator, look for a .mkterm file in your 
 $HOME directory and change the terminal to your preferred emulator
 
-terminal=urxvt::
+  terminal=urxvt
 
 You can use xterm, rxvt, rxvt-unicode, terminator, xfce4-terminal, anything.
 
