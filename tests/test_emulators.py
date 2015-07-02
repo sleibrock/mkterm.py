@@ -26,8 +26,8 @@ def test_all_emulators():
     See which ones are available to use
     """
     print("Beginning test")
-    available = [join(spath, prog)
+    available = {prog
             for prog in emulators for spath in (join(*sp) for sp in paths)
-            if isfile(join(spath, prog))]
+            if isfile(join(spath, prog))}
     list(map(lambda x: print("'{0}' is available".format(x)), available))
     return True

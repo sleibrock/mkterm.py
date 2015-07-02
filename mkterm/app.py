@@ -47,7 +47,7 @@ def main(*args, **kwargs):
     Spawns instances based on arguments
     """
     ap = ArgumentParser(description=__description__, prog='mkterm')
-    ap.add_argument('-n', '--num', type=int, metavar='num', default=1,
+    ap.add_argument('num', type=int, metavar='num', default=1,
                     help="Number of terminals to spawn")
     ap.add_argument('-v', '--version', action='version', 
                     version="%(prog)s version={0}".format(__version__))
