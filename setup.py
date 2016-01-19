@@ -7,9 +7,14 @@ Setup script to install mkterm
 from setuptools import setup, find_packages
 from codecs import open
 from os import path
+import os
 import mkterm.info
 
 here = path.abspath(path.dirname(__file__))
+
+old_readme = open("README.md","r")
+with open("README.rst","w") as f:
+    f.write(old_readme.read())
 
 long_desc = """
 Rapidly spawn terminals on your desktop. Intended for users 
@@ -50,4 +55,7 @@ conf = {
     }
 
 setup(**conf)
+
+# Clean up
+os.remove("README.rst")
 # end
